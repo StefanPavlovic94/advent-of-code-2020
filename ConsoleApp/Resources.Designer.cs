@@ -154,5 +154,38 @@ namespace ConsoleApp {
                 return ResourceManager.GetString("DayOne", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1-2 x: xpxc
+        ///1-5 b: bwlbbbbcq
+        ///3-5 v: qvjjdhvl
+        ///9-12 t: ttfjvvtgxtctrntnhtt
+        ///3-4 r: rqjw
+        ///3-7 p: ppfpppppp
+        ///5-6 q: qqqqgq
+        ///7-10 v: gpvgmqkvxgbvs
+        ///4-12 b: kkdnrhwzbbbb
+        ///3-7 r: rrkwrshls
+        ///3-4 l: ldltwzclnrllhkb
+        ///4-6 m: mfcmmdvmmmm
+        ///6-16 c: ccccczcccccccccgcc
+        ///5-7 k: kkppkrr
+        ///2-5 p: bpppmpcjrgwp
+        ///8-14 c: dcwklzcckccwdw
+        ///4-7 j: qhjjjhsj
+        ///2-5 c: jcdclznbzb
+        ///7-8 x: xxxxxxxsxxxxlxxxxxx
+        ///6-7 s: rhsstssmvssss
+        ///8-16 j: rhsxwjrtpjjjjxhcjhx
+        ///13-14 q: lqmqqqzsvqqjqq
+        ///5-7 g: gggsfggj
+        ///15-16 s: ssssssssssssssxd
+        ///3-5 d: dm [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DayTwo {
+            get {
+                return ResourceManager.GetString("DayTwo", resourceCulture);
+            }
+        }
     }
 }

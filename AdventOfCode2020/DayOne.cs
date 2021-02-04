@@ -5,31 +5,40 @@ using System.Text;
 
 namespace AdventOfCode2020
 {
-    public static class DayOne
+    public class DayOne
     {
-        public static Tuple<int, int> FindSumPair(IEnumerable<int> input, int sum)
+        private IEnumerable<int> input;
+
+        public DayOne(IEnumerable<int> input)
         {
-            var orderedInput = input.OrderBy(i => i);
-            var firstHalf = orderedInput.TakeWhile(i => i < sum / 2).ToList();
-            var secondHalf = orderedInput.SkipWhile(i => i >= sum / 2 && i < sum).ToList();
+            this.input = input.OrderBy(i => i);
+        }
+
+        public Tuple<int, int> FindSumPair(int sum)
+        {
+            if (sum % 2 == 0 && input.Where( i => i == (sum / 2)).Count() > 1) 
+            {
+                return new Tuple<int, int>(sum / 2, sum / 2);
+            }
+
+            var firstHalf = input.Where(i => i < sum / 2).ToList();
+            var secondHalf = input.Where(i => i >= (sum / 2) && i <= sum).ToList();
 
             var result = firstHalf.Where(i => secondHalf.Contains(sum - i)).ToList();
 
             if (!result.Any()) return null;
 
-            return new Tuple<int, int>(result.Single(), sum - result.Single());
+            return new Tuple<int, int>(result.First(), sum - result.First());
 
         }
 
-        public static Tuple<int, int, int> FindSumTriplet(IEnumerable<int> input, int sum)
+        public Tuple<int, int, int> FindSumTriplet(int sum)
         {
-            var orderedInput = input.OrderByDescending(i => i).ToList();
-
-            foreach (var item in orderedInput)
+            foreach (var item in input)
             {
-                var res = FindSumPair(orderedInput, sum - item);
+                var res = FindSumPair(sum - item);
 
-                if (res?.Item2 != null && orderedInput.Contains(res.Item1) && orderedInput.Contains(res.Item2))
+                if (res?.Item2 != null && input.Contains(res.Item1) && input.Contains(res.Item2))
                 {
                     return new Tuple<int, int, int>(item, res.Item1, res.Item2);
                 }
