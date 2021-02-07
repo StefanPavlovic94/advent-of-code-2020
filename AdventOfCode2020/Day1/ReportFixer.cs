@@ -5,11 +5,11 @@ using System.Text;
 
 namespace AdventOfCode2020
 {
-    public class DayOne
+    public class ReportFixer
     {
         private IEnumerable<int> input;
 
-        public DayOne(IEnumerable<int> input)
+        public ReportFixer(IEnumerable<int> input)
         {
             this.input = input.OrderBy(i => i);
         }
