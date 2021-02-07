@@ -5,7 +5,7 @@ namespace AdventOfCode2020
 {
     public class Policy
     {
-        List<int> Positions { get; }
+        private List<int> Positions { get; }
         public char Character { get; }
 
         public Policy(

@@ -28,7 +28,6 @@ namespace AdventOfCode2020
             if (!result.Any()) return null;
 
             return new Pair(result.First(), sum - result.First());
-
         }
 
         public Triplet FindSumTriplet(int sum)

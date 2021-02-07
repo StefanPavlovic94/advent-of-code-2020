@@ -13,7 +13,6 @@ namespace AdventOfCode2020
         public int GetValidPasswords(IEnumerable<PolicyPasswordPair> policyPasswordPairs)
             => policyPasswordPairs.Where(p => p.Policy.IsValidPassword(p.Password)).Count();
 
-
         private static Policy Transform(string[] input)
         {
             if (input == null || !input.Any())

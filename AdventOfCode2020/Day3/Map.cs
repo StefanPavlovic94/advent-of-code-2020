@@ -29,6 +29,7 @@ namespace AdventOfCode2020
                     case Direction.Down:
                         position = new Position(position.X, position.Y + move.Skip);
                         return Result<char>.Success(rows[position.Y][position.X]);
+
                     case Direction.Right:
 
                         if (position.X + move.Skip < rows[position.Y].Count())
@@ -41,13 +42,13 @@ namespace AdventOfCode2020
                         }
 
                         return Result<char>.Success(rows[position.Y][position.X]);
+
                     default:
                         throw new NotImplementedException(); ;
                 }
             }
             catch
             {
-
                 return Result<char>.Error();
             }
         }

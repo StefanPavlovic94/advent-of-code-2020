@@ -10,6 +10,5 @@
             Policy = policy;
             this.Password = password;
         }
-
     }
 }
