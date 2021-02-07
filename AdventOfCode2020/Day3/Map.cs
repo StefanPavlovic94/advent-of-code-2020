@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ardalis.Result;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,43 +7,40 @@ namespace AdventOfCode2020
 {
     public class Map
     {
-        private readonly List<string> rows;
-        public int X { get; private set; }
-        public int Y { get; private set; }
-        public int Height => rows.Count();
+        private const char Three = '#';
+        private List<string> rows { get; }
+        private Position position { get; set; }
 
         public Map(List<string> rows)
         {
             this.rows = rows;
-            X = Y = 0;
+            ResetPosition();
         }
 
-        public Tuple<bool, char> ApplyMoves(List<Move> moves)
-        {
-            return moves.Select(m => ApplyMove(m)).ToList().Last();
-        }
+        private Result<char> ApplyMoves(IEnumerable<Move> moves)
+             => moves.Select(m => ApplyMove(m)).ToList().Last();
 
-        public Tuple<bool, char> ApplyMove(Move move)
+        public Result<char> ApplyMove(Move move)
         {
             try
             {
                 switch (move.Direction)
                 {
                     case Direction.Down:
-                        Y = Y + move.Skip;
-                        return new Tuple<bool, char>(true, rows[Y][X]);
+                        position = new Position(position.X, position.Y + move.Skip);
+                        return Result<char>.Success(rows[position.Y][position.X]);
                     case Direction.Right:
 
-                        if (X + move.Skip < rows[Y].Count())
+                        if (position.X + move.Skip < rows[position.Y].Count())
                         {
-                            X = X + move.Skip;
+                            position = new Position(position.X + move.Skip, position.Y);
                         }
                         else
                         {
-                            X = (X + move.Skip) - rows[Y].Count();
+                            position = new Position((position.X + move.Skip) - rows[position.Y].Count(), position.Y);
                         }
 
-                        return new Tuple<bool, char>(true, rows[Y][X]);
+                        return Result<char>.Success(rows[position.Y][position.X]);
                     default:
                         throw new NotImplementedException(); ;
                 }
@@ -50,10 +48,35 @@ namespace AdventOfCode2020
             catch
             {
 
-                return new Tuple<bool, char>(false, ' ');
+                return Result<char>.Error();
             }
         }
 
-    }
+        public int CountCharacter(IEnumerable<Move> moves, char character)
+        {
+            return FindPath(moves).Where(c => c == character).Count();
+        }
 
+        private List<char> FindPath(IEnumerable<Move> moves)
+        {
+            var characters = new List<char>();
+
+            while (true)
+            {
+                var character = ApplyMoves(moves);
+
+                if (character.Status != ResultStatus.Ok) break;
+
+                characters.Add(character.Value);
+            }
+
+            ResetPosition();
+            return characters;
+        }
+
+        private void ResetPosition()
+        {
+            position = new Position(0, 0);
+        }
+    }
 }
