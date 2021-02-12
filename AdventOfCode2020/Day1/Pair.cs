@@ -1,4 +1,7 @@
-﻿namespace AdventOfCode2020
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace AdventOfCode2020
 {
     public class Pair
     {
@@ -11,9 +14,12 @@
             Y = y;
         }
 
-        public int Multiply()
+        public int Multiply() 
         {
             return X * Y;
         }
+
+        public bool IsInCollection(IEnumerable<int> collection)
+         => collection.Contains(X) && collection.Contains(Y);
     }
 }

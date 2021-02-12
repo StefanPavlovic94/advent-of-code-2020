@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ardalis.Result;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,7 +14,7 @@ namespace AdventOfCode2020
             this.input = input.OrderBy(i => i);
         }
 
-        public Pair FindSumPair(int sum)
+        public Result<Pair> FindSumPair(int sum)
         {
             if (sum % 2 == 0 && input.Where(i => i == (sum / 2)).Count() > 1)
             {
@@ -25,24 +26,21 @@ namespace AdventOfCode2020
 
             var result = firstHalf.Where(i => secondHalf.Contains(sum - i)).ToList();
 
-            if (!result.Any()) return null;
+            if (!result.Any()) return Result<Pair>.NotFound();
 
             return new Pair(result.First(), sum - result.First());
         }
 
-        public Triplet FindSumTriplet(int sum)
+        public Result<Triplet> FindSumTriplet(int sum)
         {
-            foreach (var item in input)
-            {
-                var res = FindSumPair(sum - item);
+            var result = input.Select(value => new { value, pairResult = FindSumPair(sum - value) })
+                        .Where(valuePairResult => valuePairResult.pairResult.Status == ResultStatus.Ok && valuePairResult.pairResult.Value.IsInCollection(input))
+                        .Select(valuePairResultPair => new Triplet(valuePairResultPair.value, valuePairResultPair.pairResult.Value.X, valuePairResultPair.pairResult.Value.Y))
+                        .FirstOrDefault();
 
-                if (res != null && input.Contains(res.X) && input.Contains(res.Y))
-                {
-                    return new Triplet(item, res.X, res.Y);
-                }
-            }
-
-            throw new ArgumentException();
+            return result != null 
+                ? Result<Triplet>.Success(result) 
+                : Result<Triplet>.NotFound();
         }
     }
 }
