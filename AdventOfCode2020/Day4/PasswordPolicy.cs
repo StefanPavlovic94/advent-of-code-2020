@@ -13,9 +13,6 @@ namespace AdventOfCode2020.Day4
             this.requiredFields = requiredFields;
         }
 
-        //public bool IsValidPassword(IEnumerable<PassportField> fields)
-        //    => requiredFields.All(requiredField => fields.Any(field => field.Key == requiredField));
-
         public bool IsValidPassword(IEnumerable<PassportField> fields)
         {
             return requiredFields.All(requiredField => fields.Any(field => field.Key == requiredField)) && fields.All(f => ValidateField(f));

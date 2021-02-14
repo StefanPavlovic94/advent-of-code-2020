@@ -1,5 +1,5 @@
-﻿using Ardalis.Result;
-using System;
+﻿using AdventOfCode2020.Extensions;
+using Ardalis.Result;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,10 +7,15 @@ namespace AdventOfCode2020
 {
     public class ReportFixer
     {
-        private IEnumerable<int> input;
+        private IEnumerable<int> input { get; }
 
         public ReportFixer(IEnumerable<int> input)
         {
+            if (input == null)
+            {
+                throw new ReportsNullException();
+            }
+
             this.input = input.OrderBy(i => i);
         }
 
@@ -18,29 +23,43 @@ namespace AdventOfCode2020
         {
             if (sum % 2 == 0 && input.Where(i => i == (sum / 2)).Count() > 1)
             {
-                return new Pair(sum / 2, sum / 2);
+                return new Pair(sum / 2);
             }
 
-            var firstHalf = input.Where(i => i < sum / 2).ToList();
-            var secondHalf = input.Where(i => i >= (sum / 2) && i <= sum).ToList();
+            var secondHalf = GetSecondHalf(input, sum);
+            var firstHalf = GetFirstHalf(input, sum);
 
-            var result = firstHalf.Where(i => secondHalf.Contains(sum - i)).ToList();
+            var result = firstHalf
+                .Where(i => secondHalf.Contains(sum - i))
+                .ToList();
 
-            if (!result.Any()) return Result<Pair>.NotFound();
+            if (!result.Any()) 
+            {
+                return Result<Pair>.NotFound(); 
+            }
 
-            return new Pair(result.First(), sum - result.First());
+            var firstResult = result.First();
+            return new Pair(firstResult, sum - firstResult);
         }
 
         public Result<Triplet> FindSumTriplet(int sum)
         {
-            var result = input.Select(value => new { value, pairResult = FindSumPair(sum - value) })
-                        .Where(valuePairResult => valuePairResult.pairResult.Status == ResultStatus.Ok && valuePairResult.pairResult.Value.IsInCollection(input))
-                        .Select(valuePairResultPair => new Triplet(valuePairResultPair.value, valuePairResultPair.pairResult.Value.X, valuePairResultPair.pairResult.Value.Y))
-                        .FirstOrDefault();
+            var result = input
+                    .Select(value => FindSumPair(sum - value))
+                    .Where(result => result.IsSuccess() && result.Value.IsInCollection(input))
+                    .Select(result => result.Value)
+                    .Select(pair => new Triplet(sum - (pair.Sum), pair.X, pair.Y))
+                    .FirstOrDefault();
 
             return result != null 
                 ? Result<Triplet>.Success(result) 
                 : Result<Triplet>.NotFound();
         }
+
+        private List<int> GetFirstHalf(IEnumerable<int> input, int sum)
+            => input.Where(i => i <= sum / 2).ToList();
+
+        private List<int> GetSecondHalf(IEnumerable<int> input, int sum)
+            => input.Where(i => i > sum / 2).ToList();
     }
 }

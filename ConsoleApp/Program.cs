@@ -12,16 +12,16 @@ namespace ConsoleApp
         {
             var delimiters = new char[] { '\r', '\n' };
 
-            //var input = Resources.DayOne.Split(delimiters)
-            //    .Where(s => !string.IsNullOrWhiteSpace(s))
-            //    .Select(s => s.Trim());
+            var input = Resources.DayOne.Split(delimiters)
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .Select(s => s.Trim());
 
 
-            var input = Resources.DayFour.Split(Environment.NewLine + Environment.NewLine)
-                .Select(s => s.Trim())
-                .ToList();
+            //var input = Resources.DayFour.Split(Environment.NewLine + Environment.NewLine)
+            //    .Select(s => s.Trim())
+            //    .ToList();
 
-            DayFour(input);
+            DayOne(input);
         }
 
         public static void DayOne(IEnumerable<string> input)
