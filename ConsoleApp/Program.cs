@@ -6,22 +6,75 @@ using System.Linq;
 
 namespace ConsoleApp
 {
+    class OffsideSolver 
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="teams"></param>
+        /// <returns></returns>
+        public bool IsThereAnOffside(int[][] teams) 
+        {
+            if (teams == null || teams.Count() != 2) 
+            {
+                throw new ArgumentException("There must be 2 teams passed as argument");
+            }
+
+            var teamLeft = teams[0];
+            var teamRight = teams[1];
+
+            var teamLeftMinMax = FindMinMax(teamLeft);
+            var teamrightMinMax = FindMinMax(teamRight);
+
+            return teamLeftMinMax.min > teamrightMinMax.min 
+                || teamLeftMinMax.max > teamrightMinMax.max;
+        }
+
+        public (int min, int max) FindMinMax(int[] team)
+        {
+            if (team == null || team.Count() == 0) 
+            {
+                throw new ArgumentNullException("Team can not be null or empty");
+            }
+
+            int min = team[0];
+            int max = team[0];
+
+            for (int i = 1; i < team.Length; i++)
+            {
+                if (team[i] < min) { min = team[i]; }
+                if (team[i] > max) { max = team[i]; }
+            }
+
+            return (min, max);
+        }
+    }
+
     internal class Program
     {
         private static void Main(string[] args)
         {
-            var delimiters = new char[] { '\r', '\n' };
+            var offsideSolver = new OffsideSolver();
+            var result = offsideSolver.IsThereAnOffside(new int[][]
+            {
+                new int[] { 1, 2, 3},
+                new int[] { 1, 2, 3}
+            });
 
-            var input = Resources.DayOne.Split(delimiters)
-                .Where(s => !string.IsNullOrWhiteSpace(s))
-                .Select(s => s.Trim());
+            Console.Write(result);
+
+            //var delimiters = new char[] { '\r', '\n' };
+
+            //var input = Resources.DayOne.Split(delimiters)
+            //    .Where(s => !string.IsNullOrWhiteSpace(s))
+            //    .Select(s => s.Trim());
 
 
             //var input = Resources.DayFour.Split(Environment.NewLine + Environment.NewLine)
             //    .Select(s => s.Trim())
             //    .ToList();
 
-            DayOne(input);
+            //DayOne(input);
         }
 
         public static void DayOne(IEnumerable<string> input)
@@ -87,5 +140,15 @@ namespace ConsoleApp
 
             var validPassports = passportFields.Select(s => passportBuilder.CreatePassport(s)).Where(s => s != null).ToList();
         }
+    }
+
+    public interface IAmInterface 
+    {
+        string GetString();
+    }
+
+    public interface IAmSecondInterface : IAmInterface 
+    {
+    
     }
 }
