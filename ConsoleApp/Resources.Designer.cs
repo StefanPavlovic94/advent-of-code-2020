@@ -61,6 +61,57 @@ namespace ConsoleApp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FFBBFFBRRR
+        ///FBFBBBBLRR
+        ///BFBBBBBLRR
+        ///FBBFFFBLLR
+        ///FFBBFBBLLR
+        ///FBFFFBBLRL
+        ///FBFFFFBRRL
+        ///FBBBBBFLLR
+        ///BFFFBBFLRR
+        ///FFBBFBFRLL
+        ///BFFFBFBLRL
+        ///BFBBBFBLLL
+        ///FFFBFBBLLR
+        ///FFBBBFBRLR
+        ///FFFBBBBLRR
+        ///BFFFFBFRRL
+        ///FBFFBBBRLR
+        ///BFFFFBFRLR
+        ///BFBFBFBRLR
+        ///FFBFBFFLLR
+        ///BBFBBFFRLL
+        ///BFFBBFFRRR
+        ///BBFBBFFRLR
+        ///FFBBBBFLRR
+        ///FFFFBBBLLR
+        ///FBBBBBBRRR
+        ///FBFFFBBRLL
+        ///FFBFBFFLLL
+        ///FFFBBFFRRL
+        ///BBFFBBFLRL
+        ///BFFFBBBLRR
+        ///FFBFFBFLLR
+        ///FFBFBFBRRR
+        ///FBBFBBFRLL
+        ///FFFBBFFLLR
+        ///FBFFBFBLLR
+        ///FBFFBBFLRL
+        ///BBFFFFFLRL
+        ///FBBBFFFLRR
+        ///BBFFBBBLRR
+        ///BFFFFFFRLL
+        ///BFFBFFFLRL
+        ///FFBFBBBL [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DayFive {
+            get {
+                return ResourceManager.GetString("DayFive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ecl:amb
         ///pid:690616023
         ///byr:1994 iyr:2014 hgt:172cm hcl:#c0946f eyr:2022
